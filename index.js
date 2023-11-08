@@ -17,6 +17,10 @@ const message = {
 app.use(cors());
 db.connect();
 
+app.get("/", (req, res) => {
+    res.json({ test: "test" });
+});
+
 app.get("/guestbook/all", async (req, res) => {
     try {
         const documents = await db.findDocuments("guestbook", {});
