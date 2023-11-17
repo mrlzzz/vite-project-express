@@ -15,6 +15,7 @@ const message = {
 };
 
 app.use(cors());
+app.use(express.json());
 db.connect();
 
 app.get("/", (req, res) => {
@@ -30,6 +31,16 @@ app.get("/guestbook/all", async (req, res) => {
     } catch (error) {
         console.error("Error fetching data from the database:", error);
         res.status(500).json({ error: "Failed to fetch data" });
+    }
+});
+
+app.post("/guestbook/new", async (req, res) => {
+    try {
+        let receivedDocument = req.body.properties.message.type;
+        console.log(receivedDocument);
+        db.insertDocument("guestbook", receivedDocument);
+    } catch (err) {
+        console.error(err);
     }
 });
 

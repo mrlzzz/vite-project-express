@@ -1,15 +1,12 @@
+// Database controller
+
 const { MongoClient } = require("mongodb");
+
 require("dotenv").config();
 
 const uri = process.env.MONGODB_URI || "Can't read dotenv";
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version xx
-if (uri === "") {
-    console.log("Mongo URI is empty");
-} else {
-    console.log("Mongo URI is non-empty");
-}
+const dbName = process.env.DB_NAME || "Can't read dotenv";
 const client = new MongoClient(uri);
-const dbName = "example";
 
 async function connect() {
     try {
