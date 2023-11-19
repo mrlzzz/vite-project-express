@@ -5,7 +5,7 @@ const { MongoClient } = require("mongodb");
 require("dotenv").config();
 
 const uri = process.env.MONGODB_URI || "Can't read dotenv mongo";
-const dbName = process.env.DB_NAME || "Can't read dotenv db_name";
+const dbName = process.env.DB_NAME || "Can't read dotenv db_name 1";
 const client = new MongoClient(uri);
 
 async function connect() {
