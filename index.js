@@ -27,7 +27,7 @@ app.get("/guestbook/all", async (req, res) => {
         const documents = await db.findDocuments("guestbook", {});
         console.log("Received data from the database");
         console.log(documents);
-        res.json(documents);
+        console.log(res.json(documents));
     } catch (error) {
         console.error("Error fetching data from the database:", error);
         res.status(500).json({ error: "Failed to fetch data" });
@@ -39,6 +39,7 @@ app.post("/guestbook/new", async (req, res) => {
         let receivedDocument = req.body.properties.message.type;
         console.log(receivedDocument);
         db.insertDocument("guestbook", receivedDocument);
+        res.json("200 - Successfully added new message");
     } catch (err) {
         console.error(err);
     }
