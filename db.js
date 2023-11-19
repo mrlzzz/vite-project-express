@@ -5,7 +5,7 @@ const { MongoClient } = require("mongodb");
 require("dotenv").config();
 
 const uri = process.env.MONGODB_URI || "Can't read dotenv mongo";
-const dbName = process.env.DB_NAME || "Can't read dotenv db_name 1";
+const dbName = process.env.DB_NAME || "Can't read dotenv db_name";
 const client = new MongoClient(uri);
 
 async function connect() {
@@ -50,9 +50,22 @@ async function findDocuments(collectionName, query) {
     }
 }
 
+async function deleteAllDocuments(collectionName) {
+    const db = client.db(dbName);
+    const collection = db.collection(collectionName);
+
+    try {
+        const result = await collection.deleteMany({});
+        return result;
+    } catch (error) {
+        console.error("Error finding documents:", error);
+    }
+}
+
 module.exports = {
     connect,
     close,
     insertDocument,
     findDocuments,
+    deleteAllDocuments,
 };

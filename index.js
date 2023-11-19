@@ -45,6 +45,15 @@ app.post("/guestbook/new", async (req, res) => {
     }
 });
 
+app.delete("/guestbook/delete/all", async (req, res) => {
+    try {
+        db.deleteAllDocuments("guestbook");
+        res.json("200 - Successfully removed all messsages");
+    } catch (err) {
+        console.error(err);
+    }
+});
+
 app.listen(port, () => {
     console.log("Listening at " + port);
 });
