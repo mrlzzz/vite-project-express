@@ -7,6 +7,7 @@ require("dotenv").config();
 const uri = process.env.MONGODB_URI || "Can't read dotenv mongo";
 const dbName = process.env.DB_NAME || "Can't read dotenv db_name";
 const client = new MongoClient(uri);
+const db = client.db(dbName);
 
 async function connect() {
     try {
@@ -27,7 +28,6 @@ async function close() {
 }
 
 async function insertDocument(collectionName, document) {
-    const db = client.db(dbName);
     const collection = db.collection(collectionName);
 
     try {
@@ -39,7 +39,6 @@ async function insertDocument(collectionName, document) {
 }
 
 async function findDocuments(collectionName, query) {
-    const db = client.db(dbName);
     const collection = db.collection(collectionName);
 
     try {
@@ -51,7 +50,6 @@ async function findDocuments(collectionName, query) {
 }
 
 async function deleteAllDocuments(collectionName) {
-    const db = client.db(dbName);
     const collection = db.collection(collectionName);
 
     try {

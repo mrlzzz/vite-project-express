@@ -16,7 +16,6 @@ const message = {
 
 app.use(cors());
 app.use(express.json());
-db.connect();
 
 app.get("/", (req, res) => {
     res.json({ test: "test" });
@@ -24,6 +23,7 @@ app.get("/", (req, res) => {
 
 app.get("/guestbook/all", async (req, res) => {
     try {
+        await db.connect();
         const documents = await db.findDocuments("guestbook", {});
         console.log("Received data from the database");
         console.log(documents);
@@ -31,26 +31,36 @@ app.get("/guestbook/all", async (req, res) => {
     } catch (error) {
         console.error("Error fetching data from the database:", error);
         res.status(500).json({ error: "Failed to fetch data" });
+    } finally {
+        await db.close();
     }
 });
 
 app.post("/guestbook/new", async (req, res) => {
     try {
+        await db.connect();
         let receivedDocument = req.body.properties.message.type;
         console.log(receivedDocument);
-        db.insertDocument("guestbook", receivedDocument);
+        await db.insertDocument("guestbook", receivedDocument);
         res.json("200 - Successfully added new message");
     } catch (err) {
         console.error(err);
+    } finally {
+        await db.close();
     }
 });
 
 app.delete("/guestbook/delete/all", async (req, res) => {
+    console.log("Received a DELETE request");
     try {
-        db.deleteAllDocuments("guestbook");
+        await db.connect();
+        await db.deleteAllDocuments("guestbook");
         res.json("200 - Successfully removed all messsages");
+        console.log("DELETE request processed, send response to the client");
     } catch (err) {
         console.error(err);
+    } finally {
+        await db.close();
     }
 });
 
