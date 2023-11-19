@@ -27,7 +27,7 @@ app.get("/guestbook/all", async (req, res) => {
         const documents = await db.findDocuments("guestbook", {});
         console.log("Received data from the database");
         console.log(documents);
-        console.log(res.json(documents));
+        res.json(documents);
     } catch (error) {
         console.error("Error fetching data from the database:", error);
         res.status(500).json({ error: "Failed to fetch data" });
